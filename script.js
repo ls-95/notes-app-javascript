@@ -33,3 +33,31 @@ notesContainer.addEventListener("click", function (e) {
     });
   }
 });
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault(); // Prevent the default Enter key action
+
+    // Create a line break
+    const br = document.createElement("br");
+
+    // Get the current selection
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return;
+
+    // Get the current range (where the cursor is)
+    const range = selection.getRangeAt(0);
+
+    // Insert the line break at the cursor's position
+    range.deleteContents(); // Remove any selected content
+    range.insertNode(br); // Insert the line break
+
+    // Move the cursor after the line break
+    range.setStartAfter(br);
+    range.collapse(true); // Collapse the range to a single point (after the line break)
+
+    // Update the selection to the new range
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+});
